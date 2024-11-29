@@ -7,6 +7,7 @@ import com.user.auth.validator.annotation.Enum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -29,13 +30,8 @@ public class EnumValueValidator implements ConstraintValidator<Enum, String> {
         boolean result = false;
         final Object[] enumValues = this.annotation.enumClass().getEnumConstants();
         if (Objects.nonNull(enumValues)) {
-            for (Object enumValue : enumValues) {
-                final String enumValueAsString = enumValue.toString();
-                if (object.equals(enumValueAsString) || (this.annotation.ignoreCase() && object.equalsIgnoreCase(enumValueAsString))) {
-                    result = true;
-                    break;
-                }
-            }
+            result = Arrays.stream(enumValues).map(Object::toString)
+                    .anyMatch(enumValueAsString -> object.equals(enumValueAsString) || (this.annotation.ignoreCase() && object.equalsIgnoreCase(enumValueAsString)));
         }
         return result;
     }
