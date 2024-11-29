@@ -1,0 +1,13 @@
+{
+  "firstName": "string",
+  "items": [
+    {
+      "itemId": "string",
+      "price": 0,
+      "quantity": 0
+    }
+  ],
+  "lastName": "string",
+  "sessionId": "string",
+  "userId": "string"
+}

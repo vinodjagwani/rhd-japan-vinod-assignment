@@ -1,0 +1,58 @@
+spring:
+  cloud:
+    discovery:
+      enabled: true
+  application:
+    name: ${SPRING_APPLICATION_NAME:user-auth-service}
+  main:
+    allow-bean-definition-overriding: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: user_auth_db
+      auto-index-creation: true
+  sleuth:
+    enabled: true
+
+app:
+  jwtSecret: secret
+  jwtExpirationS: 30
+  user-id-initial-prefix: UID-
+  user-id-date-prefix: ddMMyyyy-
+  user-id-max-limit: 9999
+
+management:
+  server:
+    port: 9081
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 9088
+  servlet:
+    contextPath: /authentication
+
+logbook:
+  include:
+    - /**
+  exclude:
+    - /actuator/**
+    - /swagger-ui.html/**
+  filter.enabled: true
+  format.style: http
+  strategy: default
+  obfuscate:
+    parameters:
+      - access_token
+      - password
+      - token
+
+

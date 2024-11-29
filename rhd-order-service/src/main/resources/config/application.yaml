@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:rhd-order-service}
+  webflux:
+    basePath: /order-service
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    discovery:
+      enabled: false
+  r2dbc:
+    url: r2dbc:pool:mysql://localhost:3306/rhd-order
+    username: root
+    password: root
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange: rhd-order-exchange
+    queue: rhd-order-queue
+    routingkey: rhd-order-routingkey
+
+management:
+  server:
+    port: 9088
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, prometheus, beans
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    jp:
+      rhd:
+        order: TRACE
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+
+server:
+  port: 8088
+
+app:
+  jwtSecret: secret

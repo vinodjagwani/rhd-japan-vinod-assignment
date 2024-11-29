@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:rhd-shopping-cart-service}
+  webflux:
+    basePath: /shopping-cart-service
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    discovery:
+      enabled: false
+  r2dbc:
+    url: r2dbc:pool:mysql://localhost:3306/cart-item
+    username: root
+    password: root
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: product_media
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange: rhd-order-exchange
+    queue: rhd-order-queue
+    routing-key: rhd-order-routingkey
+
+
+management:
+  server:
+    port: 9089
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, prometheus, beans
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    jp:
+      rhd:
+        cart: TRACE
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+      zalando:
+        logbook: TRACE
+
+server:
+  port: 8089
+
+logbook:
+  include:
+    - /**
+  exclude:
+    - /actuator/**
+    - ${server.servlet.contextPath}/webjars/**
+    - ${server.servlet.contextPath}/v2/api-docs/**
+    - ${server.servlet.contextPath}/swagger-ui.html/**
+    - ${server.servlet.contextPath}/swagger-resources/**
+  filter.enabled: true
+  format.style: splunk
+  strategy: default
+  obfuscate:
+    parameters:
+      - access_token
+      - password
+      - token
+
+app:
+  jwtSecret: secret

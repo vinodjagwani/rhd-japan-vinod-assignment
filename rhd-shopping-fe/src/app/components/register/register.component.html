@@ -1,0 +1,152 @@
+<p>
+    <a [routerLink]="['/login']">Move to Login</a>
+</p>
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="guest-form-card card">
+
+            <div class="card-header text-centered">
+                <h4>Register Here</h4>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input id="name" class="form-control" [ngClass]="{ 'is-invalid': formErrors.name}"
+                            formControlName="name" (blur)="logValidationErrors()">
+                        <span class="invalid-feedback" *ngIf="formErrors.name">
+                            {{formErrors.name}}
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control"
+                            [ngClass]="{ 'is-invalid': formErrors.email}" formControlName="email"
+                            (blur)="logValidationErrors()">
+                        <span class="invalid-feedback">
+                            <span *ngIf="formErrors.email">{{formErrors.email}}</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="number">Mobile number</label>
+                        <input type="tel" id="number" class="form-control"
+                            [ngClass]="{ 'is-invalid': formErrors.number}" formControlName="number"
+                            (blur)="logValidationErrors()">
+                        <span class="invalid-feedback">
+                            <span *ngIf="formErrors.number">{{formErrors.number}}</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input id="username" class="form-control" [ngClass]="{ 'is-invalid': formErrors.username}"
+                            formControlName="username" (blur)="logValidationErrors()">
+                        <span class="invalid-feedback" *ngIf="formErrors.username">{{formErrors.username}}</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control"
+                            [ngClass]="{ 'is-invalid': formErrors.password}" formControlName="password"
+                            (blur)="logValidationErrors()">
+
+                        <span class="invalid-feedback">
+                            <span *ngIf="formErrors.password">{{formErrors.password}}</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control"
+                            [ngClass]="{ 'is-invalid': registerForm.get('confirmPassword').touched && registerForm.get('confirmPassword').invalid}"
+                            formControlName="confirmPassword">
+                        <span class="invalid-feedback">Passwords not matching!</span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-4">
+                            <button type="button" class="btn btn-primary" (click)="addAddressButtonClick()"
+                            [disabled]="registerForm.get('address').invalid">
+                                Add address
+                            </button>
+                        </div>
+                    </div>
+
+                    <div formArrayName="address"
+                        *ngFor="let addCheck of registerForm.get('address').controls; let i = index">
+                        <hr *ngIf="i>0">
+                        <div [formGroupName]="i">
+                            <div class="form-group">
+                                <label [attr.for]="'street'+i">
+                                    Street
+                                </label>
+                                <input [id]="'street'+i" class="form-control"
+                                    [ngClass]="{ 'is-invalid': addCheck.get('street').invalid && addCheck.get('street').touched}"
+                                    formControlName="street">
+                                <span class="invalid-feedback d-block"
+                                    *ngIf="addCheck.get('street').errors?.required && addCheck.get('street').touched">
+                                    Street name can't be blank.
+                                </span>
+                            </div>
+                            <div>
+                                <div class="col-sm-4" *ngIf="registerForm.get('address').length>1">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                            title="Delete Address Group" (click)="removeAddressButtonClick(i)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                                          </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label [attr.for]="'city'+i">
+                                    City
+                                </label>
+                                <input [id]="'city'+i" class="form-control"
+                                    [ngClass]="{ 'is-invalid': addCheck.get('city').invalid && addCheck.get('city').touched}"
+                                    formControlName="city">
+                                <span class="invalid-feedback d-block"
+                                    *ngIf="addCheck.get('city').errors?.required && addCheck.get('city').touched">
+                                    City name can't be blank.
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label [attr.for]="'pincode'+i">
+                                    Pincode
+                                </label>
+                                <input [id]="'pincode'+i" class="form-control"
+                                    [ngClass]="{ 'is-invalid': addCheck.get('pincode').invalid && addCheck.get('pincode').touched}"
+                                    formControlName="pincode">
+                                <span class="invalid-feedback d-block"
+                                    *ngIf="addCheck.get('pincode').errors?.required && addCheck.get('pincode').touched">
+                                    Pincode can't be blank.
+                                </span>
+                                <span class="invalid-feedback d-block"
+                                    *ngIf="addCheck.get('pincode').errors?.pattern && addCheck.get('pincode').touched">
+                                    Pincode must be 6 digits.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <button class="btn btn-primary btn-block" [disabled]="registerForm.invalid"
+                        (click)="register()">Register</button>
+                   
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

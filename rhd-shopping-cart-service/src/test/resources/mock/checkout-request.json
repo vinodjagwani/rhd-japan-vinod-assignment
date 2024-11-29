@@ -1,0 +1,10 @@
+{
+  "email": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "sessionId": "string",
+  "shippingAddress": "string",
+  "status": "string",
+  "totalAmount": 0,
+  "userId": "string"
+}
